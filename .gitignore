@@ -2,7 +2,8 @@
 .DS_Store
 
 # README
-*.md
+README.md
+
 
 # Eclipse
 .classpath
