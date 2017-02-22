@@ -19,7 +19,6 @@ public class Timing {
 
     public Duration stop() {
         this.Stop = Instant.now();
-        final Duration Time = Duration.between(this.Start, this.Stop);
-        return Time;
+        return  Duration.between(this.Start, this.Stop);
     }
 }
