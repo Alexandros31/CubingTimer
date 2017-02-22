@@ -1,7 +1,5 @@
 package de.xandronia.cubingtimer.internal;
 
-import javafx.stage.Stage;
-
 import java.time.Duration;
 
 /**
