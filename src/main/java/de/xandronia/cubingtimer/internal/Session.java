@@ -14,7 +14,7 @@ public class Session {
 
     private Integer Solve_Count;
 
-    private ArrayList<Solve> Solves;
+    private ArrayList Solves;
 
     private Calculations Operations;
 
@@ -28,8 +28,8 @@ public class Session {
 
     /* Getters and Setters */
 
-    public Solve getSolve(Integer index) {
-        return Solves.get(index);
+    public Solve getSolve(int index) {
+        return (Solve) Solves.get(index);
     }
 
     public void addSolve(Solve solve) {
@@ -40,19 +40,19 @@ public class Session {
     }
 
     public void delSolve(Integer index) {
-        Last_Deleted = Solves.get(index);
+        Last_Deleted = (Solve) Solves.get(index);
         Solves.remove(index);
         Solve_Count--;
-        Current_Solve = Solves.get(Solves.size()-1);
+        Current_Solve = (Solve) Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
     }
 
     public void delLastSolve() {
         if (Solves.size() == 0) return;
-        Last_Deleted = Solves.get(Solves.size()-1);
+        Last_Deleted = (Solve) Solves.get(Solves.size()-1);
         Solves.remove(Solves.size()-1);
         Solve_Count--;
-        Current_Solve = Solves.get(Solves.size()-1);
+        Current_Solve = (Solve) Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
     }
 
@@ -61,6 +61,7 @@ public class Session {
     public Session(String name) {
         this.Name = name;
         this.Mode = de.xandronia.cubingtimer.internal.Mode.T3;
+        this.Solves  = new ArrayList<Solve>();
         this.Solve_Count = 0;
         this.Operations = new Calculations();
         this.Current_Solve = null;
