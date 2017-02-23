@@ -52,10 +52,16 @@ public class Solve {
         this.Cube = cube;
     }
 
-    public void setState(State state) {
-        this.State = state;
-        if (this.State == de.xandronia.cubingtimer.internal.State.plusTwo) {
-            this.Time = Time.plusSeconds(2);
+    public void setState(State New_State) {
+        final State plusTwo = de.xandronia.cubingtimer.internal.State.plusTwo;
+        final State Previous_State = this.State;
+        this.State = New_State;
+        if (this.State.equals(plusTwo)
+                && !Previous_State.equals(plusTwo)) {
+            this.Time.plusSeconds(2);
+        } else if (Previous_State.equals(plusTwo)
+                && !this.State.equals(plusTwo)) {
+            this.Time.minusSeconds(2);
         }
     }
 

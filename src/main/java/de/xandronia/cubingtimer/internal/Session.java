@@ -12,26 +12,54 @@ public class Session {
 
     private Mode Mode;
 
-    private ArrayList<Solve> Times;
+    private Integer Solve_Count;
 
-    public Solve getSolve(int index) {
-        return this.Times.get(index);
+    private ArrayList<Solve> Solves;
+
+    /* Times and Averages */
+
+    private Solve Last_Deleted;
+
+    private Solve Current_Solve;
+
+    private Solve Best_Solve;
+
+    /* Getters and Setters */
+
+    public Solve getSolve(Integer index) {
+        return this.Solves.get(index);
     }
 
     public void addSolve(Solve solve) {
-        this.Times.add(solve);
+        this.Solves.add(solve);
+        this.Solve_Count++;
+        this.Current_Solve = solve;
+        //new bestAdd
     }
 
-    public void delSolve(int index) {
-        this.Times.remove(index);
+    public void delSolve(Integer index) {
+        this.Last_Deleted = Solves.get(index);
+        this.Solves.remove(index);
+        this.Solve_Count--;
+        this.Current_Solve = Solves.get(Solves.size()-1);
     }
 
     public void delLastSolve() {
-        this.Times.remove(Times.size()-1);
+        if (this.Solves.size() == 0) return;
+        this.Last_Deleted = Solves.get(Solves.size()-1);
+        this.Solves.remove(Solves.size()-1);
+        this.Solve_Count--;
+        this.Current_Solve = Solves.get(Solves.size()-1);
     }
+
+    /* Constructor */
 
     public Session(String name) {
         this.Name = name;
         this.Mode = de.xandronia.cubingtimer.internal.Mode.T3;
+        this.Solve_Count = 0;
+        this.Current_Solve = null;
+        this.Best_Solve = null;
+        this.Last_Deleted = null;
     }
 }

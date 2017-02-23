@@ -16,6 +16,6 @@ public class SessionList {
         final String Default_Name = Mode.T3.toString();
         final Session Default_Session = new Session(Default_Name);
         this.List.add(Default_Session);
-        this.Current = List.get(0);
+        this.Current = this.List.get(0);
     }
 }
