@@ -12,9 +12,22 @@ public class SessionList {
 
     private Session Current;
 
+    public void addSession(Session session) {
+        List.add(session);
+        Current = List.get(List.size()-1);
+    }
+
+    public void delSession(Integer index) {
+        if (List.size() > 0) {
+            List.remove(index);
+            Current = List.get(List.size()-1);
+        }
+    }
+
+
     public SessionList() {
         final String Default_Name = Mode.T3.toString();
-        final Session Default_Session = new Session(Default_Name);
+        Session Default_Session = new Session(Default_Name);
         this.List.add(Default_Session);
         this.Current = this.List.get(0);
     }
