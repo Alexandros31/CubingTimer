@@ -1,0 +1,10 @@
+apply plugin: "java"
+apply plugin: "application"
+apply plugin: "eclipse"
+apply plugin: "idea"
+
+sourceCompatibility = 1.8
+
+dependencies {
+	compile files('libs/TNoodle-WCA-0.11.5.jar')
+}
