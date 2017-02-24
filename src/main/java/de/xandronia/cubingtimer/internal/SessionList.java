@@ -17,9 +17,9 @@ public class SessionList {
         Current = (Session) List.get(List.size()-1);
     }
 
-    public void delSession(Integer index) {
+    public void delSession(Session session) {
         if (List.size() > 0) {
-            List.remove(index);
+            List.remove(session);
             Current = (Session) List.get(List.size()-1);
         }
     }
