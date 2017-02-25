@@ -8,28 +8,37 @@ import java.util.ArrayList;
 
 public class SessionList {
 
-    private ArrayList List;
+    private ArrayList<Session> List;
 
     private Session Current;
 
+    /* Getters */
+
+    public Session getCurrent() {
+        return this.Current;
+    }
+
+    /* Setters */
+
     public void addSession(Session session) {
         List.add(session);
-        Current = (Session) List.get(List.size()-1);
+        Current = List.get(List.size()-1);
     }
 
     public void delSession(Session session) {
         if (List.size() > 0) {
             List.remove(session);
-            Current = (Session) List.get(List.size()-1);
+            Current = List.get(List.size()-1);
         }
     }
 
+    /* Constructor */
 
     public SessionList() {
         final String Default_Name = Mode.T3.toString();
         Session Default_Session = new Session(Default_Name);
-        this.List = new ArrayList<Session>();
+        this.List = new ArrayList<>();
         this.List.add(Default_Session);
-        this.Current = (Session) this.List.get(0);
+        this.Current = this.List.get(0);
     }
 }

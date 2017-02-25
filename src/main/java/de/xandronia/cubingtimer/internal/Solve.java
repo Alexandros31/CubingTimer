@@ -67,9 +67,9 @@ public class Solve {
 
     /* Constructor */
 
-    public Solve(Duration time, String scrmable) {
+    public Solve(Duration time, String scramble) {
         this.Time = time;
-        this.Scramble = scrmable;
+        this.Scramble = scramble;
         this.State = de.xandronia.cubingtimer.internal.State.OK;
     }
 }
