@@ -2,12 +2,15 @@ package de.xandronia.cubingtimer.internal;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by alex on 23.02.17.
  */
 
 public class Calculations {
+
+    /* Singles */
 
     public Solve newBestAdd(Solve New_Solve, Solve Previous_Best) {
         if ((Previous_Best == null) ||
@@ -25,6 +28,26 @@ public class Calculations {
             }
         }
         return New_Best;
+    }
+
+    /* Average */
+
+    public Average newBestAdd(Average newAverage, Average previous_best) {
+        if ((previous_best == null) ||
+                (newAverage.getTime().compareTo(previous_best.getTime()) < 0)) return newAverage;
+        return previous_best;
+    }
+
+    public Average newBestDel(Average deletedAverage, Average previousBest, HashMap<Solve, Average> averages) {
+        Average newBest;
+        if (deletedAverage.getTime().compareTo(previousBest.getTime()) > 0) return previousBest;
+        else {
+            newBest = averages.get(0);
+            for (Average current : averages.values()) {
+                if (current.getTime().compareTo(newBest.getTime()) < 0) newBest = current;
+            }
+        }
+        return newBest;
     }
 
     public Duration calculateAverage(ArrayList<Solve> Solves, ArrayList<Solve> Excluded) {

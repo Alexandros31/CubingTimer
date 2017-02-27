@@ -15,6 +15,20 @@ public class Average {
 
     private Duration Time;
 
+    /* Getters */
+
+    public ArrayList<Solve> getSolves() {
+        return this.Solves;
+    }
+
+    public ArrayList<Solve> getExcluded_Solves() {
+        return this.Excluded_Solves;
+    }
+
+    public Duration getTime() {
+        return this.Time;
+    }
+
     /* Constructor */
 
     public Average(ArrayList<Solve> solves, ArrayList<Solve> excluded, Duration time) {
