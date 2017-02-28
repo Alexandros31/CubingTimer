@@ -9,32 +9,32 @@ import java.util.ArrayList;
 
 public class Average {
 
-    private ArrayList<Solve> Solves;
+    private ArrayList<Solve> solves;
 
-    private ArrayList<Solve> Excluded_Solves;
+    private ArrayList<Solve> excludedSolves;
 
-    private Duration Time;
+    private Duration time;
 
     /* Getters */
 
     public ArrayList<Solve> getSolves() {
-        return this.Solves;
+        return this.solves;
     }
 
-    public ArrayList<Solve> getExcluded_Solves() {
-        return this.Excluded_Solves;
+    public ArrayList<Solve> getExcludedSolves() {
+        return this.excludedSolves;
     }
 
     public Duration getTime() {
-        return this.Time;
+        return this.time;
     }
 
     /* Constructor */
 
     public Average(ArrayList<Solve> solves, ArrayList<Solve> excluded, Duration time) {
-        this.Solves = solves;
-        this.Excluded_Solves = excluded;
-        this.Time = time;
+        this.solves = solves;
+        this.excludedSolves = excluded;
+        this.time = time;
     }
 
 }

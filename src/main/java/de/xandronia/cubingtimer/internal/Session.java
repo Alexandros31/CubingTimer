@@ -92,7 +92,7 @@ public class Session {
         Current_Solve = Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestAdd(Current_Solve, Best_Solve);
         if (Solves.size() >= AVERAGE_OF5) {
-            ArrayList<Solve> AverageOf5 = getAnyAverageSolves(AVERAGE_OF5);
+            ArrayList<Solve> AverageOf5 = Operations.getAnyAverageSolves(Solves, AVERAGE_OF5, Solves.size());
             ArrayList<Solve> Excluded = Operations.excludingSolves(AverageOf5);
             Duration Time = Operations.calculateAverage(AverageOf5, Excluded);
             Current_ao5 = new  Average(AverageOf5, Excluded, Time);
@@ -100,7 +100,7 @@ public class Session {
             Best_ao5 = Operations.newBestAdd(Current_ao5, Best_ao5);
         }
         if (Solves.size() >= AVERAGE_OF12) {
-            ArrayList<Solve> AverageOf12 = getAnyAverageSolves(AVERAGE_OF12);
+            ArrayList<Solve> AverageOf12 = Operations.getAnyAverageSolves(Solves, AVERAGE_OF12, Solves.size());
             ArrayList<Solve> Excluded = Operations.excludingSolves(AverageOf12);
             Duration Time = Operations.calculateAverage(AverageOf12, Excluded);
             Current_ao12 = new  Average(AverageOf12, Excluded, Time);
@@ -115,6 +115,12 @@ public class Session {
         Solve_Count--;
         Current_Solve = Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
+        if (Solves.size() >= AVERAGE_OF5) {
+            Current_ao5 = AveragesOf5.get(Current_Solve);
+            lastDeletedAverage = AveragesOf5.get(Last_Deleted);
+            AveragesOf5.remove(Last_Deleted);
+            Best_ao5 = Operations.newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
+        }
     }
 
     public void delLastSolve() {
@@ -124,13 +130,13 @@ public class Session {
         Solve_Count--;
         Current_Solve = Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
-        if (Solves.size() >= AVERAGE_OF5-1) {
+        if (Solves.size() >= AVERAGE_OF5) {
             Current_ao5 = AveragesOf5.get(Current_Solve);
             lastDeletedAverage = AveragesOf5.get(Last_Deleted);
             AveragesOf5.remove(Last_Deleted);
             Best_ao5 = Operations.newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
         }
-        if (Solves.size() >= AVERAGE_OF12-1) {
+        if (Solves.size() >= AVERAGE_OF12) {
             Current_ao12 = AveragesOf12.get(Current_Solve);
             lastDeletedAverage = AveragesOf12.get(Last_Deleted);
             AveragesOf12.remove(Last_Deleted);
@@ -140,12 +146,16 @@ public class Session {
 
     /* private Help Methods */
 
+    /*
+
     private ArrayList<Solve> getAnyAverageSolves(int averageOf) {
         int size = Solves.size();
         ArrayList<Solve> Average = new ArrayList<>(averageOf);
         for (int i = size-averageOf; i < size; i++) Average.add(Solves.get(i));
         return Average;
     }
+
+    */
 
     /* Constructor */
 

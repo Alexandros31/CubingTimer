@@ -2,7 +2,9 @@ package de.xandronia.cubingtimer.internal;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by alex on 23.02.17.
@@ -86,6 +88,47 @@ public class Calculations {
         }
         return Excluded;
     }
+
+    public HashMap calculateNewAverages(HashMap<Solve, Average> averages, final ArrayList<Solve> solves, int index) {
+        final Collection<Average> collection = averages.values();
+        final ArrayList<Average> averagesList = new ArrayList<>(collection);
+        final int AVERAGE = averagesList.get(0).getSolves().size();
+        int counter = 0;
+        /* Upward Direction */
+        while (counter < AVERAGE || index >= solves.size()) {
+            final Solve current = solves.get(index);
+            final Average toBeReplaced = averages.get(current);
+            final ArrayList<Solve> averageSolves = getAnyAverageSolves(solves, AVERAGE, index);
+            final ArrayList<Solve> excluded = excludingSolves(averageSolves);
+            final Duration time = calculateAverage(averageSolves, excluded);
+            final Average average = new Average(averageSolves, excluded, time);
+            averages.replace(current, toBeReplaced, average);
+            index++;
+            counter++;
+        }
+        /* Downward Direction */
+        while (counter < AVERAGE || index-AVERAGE+1 >= 0) {
+            final Solve current = solves.get(index);
+            final Average toBeReplaced = averages.get(current);
+            final ArrayList<Solve> averageSolves = getAnyAverageSolves(solves, AVERAGE, index);
+            final ArrayList<Solve> excluded = excludingSolves(averageSolves);
+            final Duration time = calculateAverage(averageSolves, excluded);
+            final Average average = new Average(averageSolves, excluded, time);
+            averages.replace(current, toBeReplaced, average);
+            index--;
+            counter++;
+        }
+        return averages;
+    }
+
+    public ArrayList<Solve> getAnyAverageSolves(final ArrayList<Solve> solves, final int averageOf, final int index) {
+        ArrayList<Solve> average = new ArrayList<>(averageOf);
+        final int START = index-averageOf+1;
+        for (int i = START; i <= index ; i++) average.add(solves.get(i));
+        return average;
+    }
+
+    /* Private Help Methods */
 
     private Solve getBestSolve(ArrayList<Solve> Solves) {
         Solve tmp = Solves.get(0);
