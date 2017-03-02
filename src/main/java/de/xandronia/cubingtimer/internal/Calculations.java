@@ -124,7 +124,7 @@ public class Calculations {
     }
 
     public ArrayList<Solve> getAnyAverageSolves(final ArrayList<Solve> solves, final int averageOf, final int index) {
-        ArrayList<Solve> average = new ArrayList<>(averageOf);
+        ArrayList<Solve> average = new ArrayList<>();
         final int START = index-averageOf+1;
         for (int i = START; i <= index ; i++) average.add(solves.get(i));
         return average;
@@ -143,7 +143,7 @@ public class Calculations {
     private Solve getWorstSolve(final ArrayList<Solve> solves) {
         Solve tmp = solves.get(0);
         for (Solve current : solves) {
-            if (current.getState() == State.DNF) return current;
+            if (current.getState().equals(State.DNF)) return current;
             if (current.getTime().compareTo(tmp.getTime()) > 0 ) tmp = current;
         }
         return tmp;

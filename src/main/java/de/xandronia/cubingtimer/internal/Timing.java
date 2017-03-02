@@ -13,10 +13,6 @@ public class Timing {
 
     private Instant Stop;
 
-    public void start() {
-        this.Start = Instant.now();
-    } //REDUNDANT
-
     public Duration stop() {
         this.Stop = Instant.now();
         return  Duration.between(this.Start, this.Stop);
