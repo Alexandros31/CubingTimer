@@ -44,5 +44,4 @@ public class Average {
         this.state = State.OK;
         if (this.time.equals(Duration.ZERO)) this.state = State.DNF;
     }
-
 }
