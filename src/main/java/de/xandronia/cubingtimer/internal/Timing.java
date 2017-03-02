@@ -15,10 +15,17 @@ public class Timing {
 
     public void start() {
         this.Start = Instant.now();
-    }
+    } //REDUNDANT
 
     public Duration stop() {
         this.Stop = Instant.now();
         return  Duration.between(this.Start, this.Stop);
+    }
+
+    /* Constructor */
+
+    public Timing() {
+        this.Start = Instant.now();
+        this.Stop = null;
     }
 }

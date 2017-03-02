@@ -9,11 +9,13 @@ import java.util.ArrayList;
 
 public class Average {
 
-    private ArrayList<Solve> solves;
+    private final ArrayList<Solve> solves;
 
-    private ArrayList<Solve> excludedSolves;
+    private final ArrayList<Solve> excludedSolves;
 
-    private Duration time;
+    private final Duration time;
+
+    private State state;
 
     /* Getters */
 
@@ -29,12 +31,18 @@ public class Average {
         return this.time;
     }
 
+    public State getState() {
+        return this.state;
+    }
+
     /* Constructor */
 
-    public Average(ArrayList<Solve> solves, ArrayList<Solve> excluded, Duration time) {
+    public Average(final ArrayList<Solve> solves, final ArrayList<Solve> excluded, final Duration time) {
         this.solves = solves;
         this.excludedSolves = excluded;
         this.time = time;
+        this.state = State.OK;
+        if (this.time.equals(Duration.ZERO)) this.state = State.DNF;
     }
 
 }
