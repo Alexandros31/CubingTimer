@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Created by alex on 23.02.17.
@@ -52,16 +51,16 @@ public class Calculations {
         return newBest;
     }
 
-    public Duration calculateAverage(ArrayList<Solve> Solves, ArrayList<Solve> Excluded) {
+    public Duration calculateAverage(final ArrayList<Solve> solves, final ArrayList<Solve> excluded) {
         int counter = 0;
-        Duration Sum = Duration.ZERO;
-        for (Solve Current : Solves) {
-            if (!Excluded.contains(Current)) {
-                Sum.plus(Current.getTime());
+        Duration sum = Duration.ZERO;
+        for (Solve current : solves) {
+            if (!excluded.contains(current) && current.getState() != State.DNF) {
+                sum.plus(current.getTime());
                 counter++;
-            }
+            } else if (!excluded.contains(current) && current.getState() == State.DNF) return Duration.ZERO;
         }
-        return Sum.dividedBy((counter));
+        return sum.dividedBy((counter));
     }
 
     public ArrayList<Solve> excludingSolves(ArrayList<Solve> Solves) {
@@ -133,18 +132,19 @@ public class Calculations {
 
     /* Private Help Methods */
 
-    private Solve getBestSolve(ArrayList<Solve> Solves) {
-        Solve tmp = Solves.get(0);
-        for (Solve Current : Solves) {
-            if (Current.getTime().compareTo(tmp.getTime()) < 0 ) tmp = Current;
+    private Solve getBestSolve(final ArrayList<Solve> solves) {
+        Solve tmp = solves.get(0);
+        for (Solve current : solves) {
+            if (current.getTime().compareTo(tmp.getTime()) < 0 ) tmp = current;
         }
         return tmp;
     }
 
-    private Solve getWorstSolve(ArrayList<Solve> Solves) {
-        Solve tmp = Solves.get(0);
-        for (Solve Current : Solves) {
-            if (Current.getTime().compareTo(tmp.getTime()) > 0 ) tmp = Current;
+    private Solve getWorstSolve(final ArrayList<Solve> solves) {
+        Solve tmp = solves.get(0);
+        for (Solve current : solves) {
+            if (current.getState() == State.DNF) return current;
+            if (current.getTime().compareTo(tmp.getTime()) > 0 ) tmp = current;
         }
         return tmp;
     }
