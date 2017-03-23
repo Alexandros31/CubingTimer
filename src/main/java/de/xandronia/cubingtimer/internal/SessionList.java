@@ -35,10 +35,10 @@ public class SessionList {
     /* Constructor */
 
     public SessionList() {
-        final String Default_Name = Mode.T3.toString();
-        Session Default_Session = new Session(Default_Name);
+        final String defaultName = Mode.T3.toString();
+        Session defaultSession = new Session(defaultName);
         this.list = new ArrayList<>();
-        this.list.add(Default_Session);
+        this.list.add(defaultSession);
         this.current = this.list.get(0);
     }
 }

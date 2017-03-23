@@ -1,6 +1,7 @@
 package de.xandronia.cubingtimer.internal;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * Created by alex on 22.02.17.
@@ -63,6 +64,21 @@ public class Solve {
                 && !this.State.equals(plusTwo)) {
             this.Time.minusSeconds(2);
         }
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) return false;
+        if (object == this) return true;
+        if (!(object instanceof Solve))return false;
+        if (((Solve) object).getTime().equals(this.Time)
+                && ((Solve) object).getScramble().equals(this.Scramble)) return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Time, Scramble, Color, Cube, State);
     }
 
     /* Constructor */

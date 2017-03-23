@@ -3,6 +3,7 @@ package de.xandronia.cubingtimer.internal;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by alex on 22.02.17.
@@ -50,6 +51,10 @@ public class Session {
 
     /* Getters */
 
+    public ArrayList<Solve> getSolves() {
+        return this.Solves;
+    }
+
     public HashMap<Solve, Average> getAveragesOf5() {
         return this.AveragesOf5;
     }
@@ -72,6 +77,10 @@ public class Session {
 
     public Integer getSolve_Count() {
         return this.Solve_Count;
+    }
+
+    public Solve getCurrent() {
+        return Current_Solve;
     }
 
     /* Setters */
@@ -151,6 +160,24 @@ public class Session {
             AveragesOf12.remove(Last_Deleted);
             Best_ao12 = Operations.newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
         }
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) return false;
+        if (object == this) return true;
+        if (!(object instanceof Session)) return false;
+        if (((Session) object).getSolves().size() != this.Solves.size()) return false;
+        for (int i = 0; i < this.Solves.size(); i++) {
+           if (!((Session) object).getSolves().get(i).equals(this.Solves.get(i))) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Name, Mode, Solve_Count, Solves, AveragesOf5, AveragesOf12, Operations, Last_Deleted,
+                Current_Solve, Current_ao5, Current_ao12, Best_Solve, lastDeletedAverage, Best_ao5, Best_ao12);
     }
 
     /* Constructor */
