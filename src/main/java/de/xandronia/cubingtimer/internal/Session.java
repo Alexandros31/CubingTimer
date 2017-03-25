@@ -83,6 +83,22 @@ public class Session {
         return Current_Solve;
     }
 
+    public Solve getBest() {
+        return Best_Solve;
+    }
+
+    public Average getCurrentAo5() {
+        return Current_ao5;
+    }
+
+    public Average getBestAo5() {
+        return Best_ao5;
+    }
+
+    public Solve getLastDeleted() {
+        return Last_Deleted;
+    }
+
     /* Setters */
 
     public void setName(String name) {

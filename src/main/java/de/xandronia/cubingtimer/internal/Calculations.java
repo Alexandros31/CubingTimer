@@ -52,40 +52,41 @@ public class Calculations {
     }
 
     public Duration calculateAverage(final ArrayList<Solve> solves, final ArrayList<Solve> excluded) {
-        int counter = 0;
+        long counter = 0;
         Duration sum = Duration.ZERO;
         for (Solve current : solves) {
             if (!excluded.contains(current) && current.getState() != State.DNF) {
-                sum.plus(current.getTime());
+                Duration tmp = sum.plus(current.getTime());
+                sum = tmp;
                 counter++;
             } else if (!excluded.contains(current) && current.getState() == State.DNF) return Duration.ZERO;
         }
         return sum.dividedBy((counter));
     }
 
-    public ArrayList<Solve> excludingSolves(ArrayList<Solve> Solves) {
-        int size = Solves.size();
+    public ArrayList<Solve> excludingSolves(ArrayList<Solve> solves) {
+        int size = solves.size();
         int amount;
         switch (size) {
-            case 5: amount = 2;
-            case 12: amount = 2;
-            case 50: amount = 6;
-            case 100: amount = 10;
-            case 1000: amount = 100;
+            case 5: amount = 2; break;
+            case 12: amount = 2; break;
+            case 50: amount = 6; break;
+            case 100: amount = 10; break;
+            case 1000: amount = 100; break;
             default: amount = 0;
         }
-        ArrayList<Solve> Excluded = new ArrayList<>(amount);
+        ArrayList<Solve> excluded = new ArrayList<>();
         for (int i = amount/2; i > 0; i--) {
-            Solve tmp = getBestSolve(Solves);
-            Solves.remove(tmp);
-            Excluded.add(tmp);
+            Solve tmp = getBestSolve(solves);
+            excluded.add(tmp);
+            solves.remove(tmp);
         }
         for (int i = amount/2; i > 0; i--) {
-            Solve tmp = getWorstSolve(Solves);
-            Solves.remove(tmp);
-            Excluded.add(tmp);
+            Solve tmp = getWorstSolve(solves);
+            excluded.add(tmp);
+            solves.remove(tmp);
         }
-        return Excluded;
+        return excluded;
     }
 
     public HashMap<Solve, Average> calculateNewAverages(HashMap<Solve, Average> averages, final ArrayList<Solve> solves, int index) {
@@ -125,8 +126,8 @@ public class Calculations {
 
     public ArrayList<Solve> getAnyAverageSolves(final ArrayList<Solve> solves, final int averageOf, final int index) {
         ArrayList<Solve> average = new ArrayList<>();
-        final int START = index-averageOf+1;
-        for (int i = START; i <= index ; i++) average.add(solves.get(i));
+        final int START = index-averageOf;
+        for (int i = START; i < index ; i++) average.add(solves.get(i));
         return average;
     }
 
@@ -141,9 +142,10 @@ public class Calculations {
     }
 
     private Solve getWorstSolve(final ArrayList<Solve> solves) {
+        if (solves.get(0).getState() == State.DNF) return solves.get(0);
         Solve tmp = solves.get(0);
         for (Solve current : solves) {
-            if (current.getState().equals(State.DNF)) return current;
+            if (current.getState() == State.DNF) return current;
             if (current.getTime().compareTo(tmp.getTime()) > 0 ) tmp = current;
         }
         return tmp;
