@@ -162,7 +162,7 @@ public class GeneralStructureTests {
         Assert.assertNotEquals(session.getCurrentAo5(), session.getBestAo5());
     }
 
-    /* Session Delete Tests */
+    /* Session Delete Last Solve Tests */
 
     @Test
     public void correctLastDeleted() {
@@ -184,6 +184,127 @@ public class GeneralStructureTests {
         session.addSolve(new Solve(Duration.ofSeconds(12), ""));
         session.addSolve(best);
         session.delLastSolve();
+        Assert.assertEquals(newBest, session.getBest());
+    }
+
+    @Test
+    public void correctCurrentAo5() {
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(11), "L"));
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        Average toBeTested = session.getCurrentAo5();
+        session.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        session.delLastSolve();
+        Assert.assertEquals(toBeTested, session.getCurrentAo5());
+    }
+
+    @Test
+    public void correctLastDeletedAo5() {
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(11), "L"));
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        Average toBeTested = session.getCurrentAo5();
+        session.delLastSolve();
+        Assert.assertEquals(toBeTested, session.getLastDeletedAverage());
+    }
+
+    @Test
+    public void keyValueDeletedFromHashMap() {
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(11), "L"));
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        final Average deleted = session.getCurrentAo5();
+        session.delLastSolve();
+        Assert.assertFalse(session.getAveragesOf5().containsValue(deleted));
+    }
+
+    @Test
+    public void newBestAo5Fails() {
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(6), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "U"));
+        Average best = session.getBestAo5();
+        session.addSolve(new Solve(Duration.ofSeconds(10), "L"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "1"));
+        session.delLastSolve();
+        Average current = session.getCurrentAo5();
+        Assert.assertNotEquals(best, current);
+    }
+
+    @Test
+    public void newBestAo5() {
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(6), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(100), "U"));
+        Average best = session.getBestAo5();
+        session.addSolve(new Solve(Duration.ofSeconds(16), "L"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "1"));
+        session.delLastSolve();
+        Average current = session.getBestAo5();
+        Assert.assertEquals(best, current);
+    }
+
+    @Test
+    public void correctIfStatement() {
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(6), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(100), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(350), "U"));
+        session.delLastSolve();
+        /* No NullPointerException */
+    }
+
+    /* Session Delete Any Solve Tests */
+
+    @Test
+    public void correctAnyLastDeleted() {
+        Solve toBeDeleted = new Solve(Duration.ofSeconds(9), "");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), ""));
+        session.addSolve(toBeDeleted);
+        session.delSolve(toBeDeleted);
+        Assert.assertEquals(toBeDeleted, session.getLastDeleted());
+    }
+
+    @Test
+    public void newBestSolveAny() {
+        Solve best = new Solve(Duration.ofSeconds(9), "");
+        Solve newBest = new Solve(Duration.ofSeconds(10), "");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(11), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(12), ""));
+        session.addSolve(newBest);
+        session.addSolve(best);
+        session.addSolve(new Solve(Duration.ofSeconds(17), ""));
+        session.delSolve(best);
         Assert.assertEquals(newBest, session.getBest());
     }
 

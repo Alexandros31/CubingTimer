@@ -99,6 +99,10 @@ public class Session {
         return Last_Deleted;
     }
 
+    public Average getLastDeletedAverage() {
+        return lastDeletedAverage;
+    }
+
     /* Setters */
 
     public void setName(String name) {
@@ -141,14 +145,14 @@ public class Session {
         Solve_Count--;
         Current_Solve = Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
-        if (Solves.size() >= AVERAGE_OF5-1) {
+        if (Solves.size() >= AVERAGE_OF5) {
             Current_ao5 = AveragesOf5.get(Current_Solve);
             lastDeletedAverage = AveragesOf5.get(Last_Deleted);
             AveragesOf5.remove(Last_Deleted);
             Best_ao5 = Operations.newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
             AveragesOf5 = Operations.calculateNewAverages(AveragesOf5, Solves, INDEX);
         }
-        if (Solves.size() >= AVERAGE_OF12-1) {
+        if (Solves.size() >= AVERAGE_OF12) {
             Current_ao12 = AveragesOf12.get(Current_Solve);
             lastDeletedAverage = AveragesOf12.get(Last_Deleted);
             AveragesOf12.remove(Last_Deleted);
@@ -164,13 +168,13 @@ public class Session {
         Solve_Count--;
         Current_Solve = Solves.get(Solves.size()-1);
         Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
-        if (Solves.size() >= AVERAGE_OF5-1) {
+        if (Solves.size() >= AVERAGE_OF5) {
             Current_ao5 = AveragesOf5.get(Current_Solve);
             lastDeletedAverage = AveragesOf5.get(Last_Deleted);
             AveragesOf5.remove(Last_Deleted);
             Best_ao5 = Operations.newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
         }
-        if (Solves.size() >= AVERAGE_OF12-1) {
+        if (Solves.size() >= AVERAGE_OF12) {
             Current_ao12 = AveragesOf12.get(Current_Solve);
             lastDeletedAverage = AveragesOf12.get(Last_Deleted);
             AveragesOf12.remove(Last_Deleted);

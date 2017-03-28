@@ -43,7 +43,7 @@ public class Calculations {
         Average newBest;
         if (deletedAverage.getTime().compareTo(previousBest.getTime()) > 0) return previousBest;
         else {
-            newBest = averages.get(0);
+            newBest = previousBest;
             for (Average current : averages.values()) {
                 if (current.getTime().compareTo(newBest.getTime()) < 0) newBest = current;
             }
