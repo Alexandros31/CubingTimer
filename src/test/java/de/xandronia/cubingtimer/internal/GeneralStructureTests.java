@@ -288,8 +288,8 @@ public class GeneralStructureTests {
     public void correctAnyLastDeleted() {
         Solve toBeDeleted = new Solve(Duration.ofSeconds(9), "");
         Session session = new Session("test");
-        session.addSolve(new Solve(Duration.ofSeconds(10), ""));
         session.addSolve(toBeDeleted);
+        session.addSolve(new Solve(Duration.ofSeconds(10), ""));
         session.delSolve(toBeDeleted);
         Assert.assertEquals(toBeDeleted, session.getLastDeleted());
     }

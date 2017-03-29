@@ -9,7 +9,7 @@ import java.util.Objects;
  * Created by alex on 22.02.17.
  */
 
-public class Session {
+public class Session extends Calculations {
 
     private final static int INITIAL_COUNT = 0;
 
@@ -28,8 +28,6 @@ public class Session {
     private HashMap<Solve, Average> AveragesOf5;
 
     private HashMap<Solve, Average> AveragesOf12;
-
-    private Calculations Operations;
 
     /* Singles and Averages */
 
@@ -119,22 +117,22 @@ public class Session {
         Solves.add(solve);
         Solve_Count++;
         Current_Solve = Solves.get(Solves.size()-1);
-        Best_Solve = Operations.newBestAdd(Current_Solve, Best_Solve);
+        Best_Solve = newBestAdd(Current_Solve, Best_Solve);
         if (Solves.size() >= AVERAGE_OF5) {
-            ArrayList<Solve> AverageOf5 = Operations.getAnyAverageSolves(Solves, AVERAGE_OF5, Solves.size());
-            ArrayList<Solve> Excluded = Operations.excludingSolves(AverageOf5);
-            Duration Time = Operations.calculateAverage(AverageOf5, Excluded);
+            ArrayList<Solve> AverageOf5 = getAnyAverageSolves(Solves, AVERAGE_OF5, Solves.size());
+            ArrayList<Solve> Excluded = excludingSolves(AverageOf5);
+            Duration Time = calculateAverage(AverageOf5, Excluded);
             Current_ao5 = new  Average(AverageOf5, Excluded, Time);
             AveragesOf5.put(Current_Solve, Current_ao5);
-            Best_ao5 = Operations.newBestAdd(Current_ao5, Best_ao5);
+            Best_ao5 = newBestAdd(Current_ao5, Best_ao5);
         }
         if (Solves.size() >= AVERAGE_OF12) {
-            ArrayList<Solve> AverageOf12 = Operations.getAnyAverageSolves(Solves, AVERAGE_OF12, Solves.size());
-            ArrayList<Solve> Excluded = Operations.excludingSolves(AverageOf12);
-            Duration Time = Operations.calculateAverage(AverageOf12, Excluded);
+            ArrayList<Solve> AverageOf12 = getAnyAverageSolves(Solves, AVERAGE_OF12, Solves.size());
+            ArrayList<Solve> Excluded = excludingSolves(AverageOf12);
+            Duration Time = calculateAverage(AverageOf12, Excluded);
             Current_ao12 = new  Average(AverageOf12, Excluded, Time);
             AveragesOf12.put(Current_Solve, Current_ao12);
-            Best_ao12 = Operations.newBestAdd(Current_ao12, Best_ao12);
+            Best_ao12 = newBestAdd(Current_ao12, Best_ao12);
         }
     }
 
@@ -144,20 +142,20 @@ public class Session {
         Solves.remove(solve);
         Solve_Count--;
         Current_Solve = Solves.get(Solves.size()-1);
-        Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
+        Best_Solve = newBestDel(Last_Deleted, Best_Solve, Solves);
         if (Solves.size() >= AVERAGE_OF5) {
             Current_ao5 = AveragesOf5.get(Current_Solve);
             lastDeletedAverage = AveragesOf5.get(Last_Deleted);
             AveragesOf5.remove(Last_Deleted);
-            Best_ao5 = Operations.newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
-            AveragesOf5 = Operations.calculateNewAverages(AveragesOf5, Solves, INDEX);
+            Best_ao5 = newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
+            AveragesOf5 = calculateNewAverages(AveragesOf5, Solves, INDEX);
         }
         if (Solves.size() >= AVERAGE_OF12) {
             Current_ao12 = AveragesOf12.get(Current_Solve);
             lastDeletedAverage = AveragesOf12.get(Last_Deleted);
             AveragesOf12.remove(Last_Deleted);
-            Best_ao12 = Operations.newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
-            AveragesOf12 = Operations.calculateNewAverages(AveragesOf12, Solves, INDEX);
+            Best_ao12 = newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
+            AveragesOf12 = calculateNewAverages(AveragesOf12, Solves, INDEX);
         }
     }
 
@@ -167,18 +165,18 @@ public class Session {
         Solves.remove(Last_Deleted);
         Solve_Count--;
         Current_Solve = Solves.get(Solves.size()-1);
-        Best_Solve = Operations.newBestDel(Last_Deleted, Best_Solve, Solves);
+        Best_Solve = newBestDel(Last_Deleted, Best_Solve, Solves);
         if (Solves.size() >= AVERAGE_OF5) {
             Current_ao5 = AveragesOf5.get(Current_Solve);
             lastDeletedAverage = AveragesOf5.get(Last_Deleted);
             AveragesOf5.remove(Last_Deleted);
-            Best_ao5 = Operations.newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
+            Best_ao5 = newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
         }
         if (Solves.size() >= AVERAGE_OF12) {
             Current_ao12 = AveragesOf12.get(Current_Solve);
             lastDeletedAverage = AveragesOf12.get(Last_Deleted);
             AveragesOf12.remove(Last_Deleted);
-            Best_ao12 = Operations.newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
+            Best_ao12 = newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
         }
     }
 
@@ -196,7 +194,7 @@ public class Session {
 
     @Override
     public int hashCode() {
-        return Objects.hash(Name, Mode, Solve_Count, Solves, AveragesOf5, AveragesOf12, Operations, Last_Deleted,
+        return Objects.hash(Name, Mode, Solve_Count, Solves, AveragesOf5, AveragesOf12, Last_Deleted,
                 Current_Solve, Current_ao5, Current_ao12, Best_Solve, lastDeletedAverage, Best_ao5, Best_ao12);
     }
 
@@ -209,7 +207,6 @@ public class Session {
         this.AveragesOf5 = new HashMap<>();
         this.AveragesOf12 = new HashMap<>();
         this.Solve_Count = INITIAL_COUNT;
-        this.Operations = new Calculations();
         this.lastDeletedAverage = null;
         this.Current_Solve = null;
         this.Best_Solve = null;
