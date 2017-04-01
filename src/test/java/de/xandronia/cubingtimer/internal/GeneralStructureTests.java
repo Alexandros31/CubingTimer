@@ -10,7 +10,7 @@ import org.junit.Assert;
  * Created by alex on 21.03.17.
  */
 
-public class GeneralStructureTests {
+public class GeneralStructureTests extends Calculations {
 
     /* Session Add Tests */
 
@@ -270,6 +270,28 @@ public class GeneralStructureTests {
     }
 
     @Test
+    public void correctCurrentAo5_2() {
+        Solve del = new Solve(Duration.ofSeconds(11), "L");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        session.addSolve(del);
+        session.delLastSolve();
+        Session test = new Session("");
+        test.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        test.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        test.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        test.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        test.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        Assert.assertEquals(test.getCurrentAo5(), session.getCurrentAo5());
+    }
+
+    @Test
     public void correctIfStatement() {
         Session session = new Session("test");
         session.addSolve(new Solve(Duration.ofSeconds(6), "F"));
@@ -279,7 +301,7 @@ public class GeneralStructureTests {
         session.addSolve(new Solve(Duration.ofSeconds(100), "U"));
         session.addSolve(new Solve(Duration.ofSeconds(350), "U"));
         session.delLastSolve();
-        /* No NullPointerException */
+        // No NullPointerException
     }
 
     /* Session Delete Any Solve Tests */
@@ -306,6 +328,73 @@ public class GeneralStructureTests {
         session.addSolve(new Solve(Duration.ofSeconds(17), ""));
         session.delSolve(best);
         Assert.assertEquals(newBest, session.getBest());
+    }
+
+    @Test
+    public void deleteFirstSolve() {
+        Session session = new Session("test");
+        Solve first = new Solve(Duration.ofSeconds(1), "");
+        session.addSolve(first);
+        session.addSolve(new Solve(Duration.ofSeconds(9), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(8), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(7), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(6), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(13), ""));
+        session.delSolve(first);
+        Assert.assertEquals(session.getCurrentAo5(), session.getBestAo5());
+    }
+
+    @Test
+    public void correctAverageByDeletingInTheMiddle() {
+        Session session = new Session("test");
+        Solve del = new Solve(Duration.ofSeconds(1), "");
+        session.addSolve(new Solve(Duration.ofSeconds(9), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(8), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(7), ""));
+        session.addSolve(del);
+        session.addSolve(new Solve(Duration.ofSeconds(6), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(13), ""));
+        session.delSolve(del);
+        Assert.assertEquals(session.getCurrentAo5(), session.getBestAo5());
+    }
+
+    @Test
+    public void correctCurrentAo5Any() {
+        Solve del = new Solve(Duration.ofSeconds(11), "L");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        session.addSolve(del);
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        session.delSolve(del);
+        Session test = new Session("");
+        test.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        test.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        test.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        test.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        test.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        Assert.assertEquals(test.getCurrentAo5(), session.getCurrentAo5());
+    }
+
+    @Test
+    public void keyValueDeletedFromHashMapAny() {
+        Solve solve = new Solve(Duration.ofSeconds(11), "L");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(solve);
+        session.addSolve(new Solve(Duration.ofSeconds(6), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(13), "1"));
+        final Average deleted = session.getAveragesOf5().get(solve);
+        session.delSolve(solve);
+        Assert.assertFalse(session.getAveragesOf5().containsValue(deleted));
     }
 
 }
