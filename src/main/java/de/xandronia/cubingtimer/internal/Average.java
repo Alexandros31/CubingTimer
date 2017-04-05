@@ -42,12 +42,19 @@ public class Average {
         if (object == this) return true;
         if (!(object instanceof Average)) return false;
         if (!this.time.equals(((Average) object).getTime()) || !this.state.equals(((Average) object).getState())) return false;
+        //ArrayList<Solve> tmp = ((Average) object).getSolves();
         for (int i = 0; i < this.solves.size(); i++) {
             if (!((Average) object).getSolves().get(i).equals(this.solves.get(i))) return false;
+            //if (!(tmp.contains(this.solves.get(i)))) return false;
+            //tmp.remove(this.solves.get(i));
         }
+        //tmp = ((Average) object).getExcludedSolves();
         for (int i = 0; i < this.excludedSolves.size(); i++) {
             if (!((Average) object).getExcludedSolves().get(i).equals(this.excludedSolves.get(i))) return false;
+            //if (!(tmp.contains(this.solves.get(i)))) return false;
+            //tmp.remove(this.solves.get(i));
         }
+        // TO DO: Override Equals as Collection
         return true;
     }
 

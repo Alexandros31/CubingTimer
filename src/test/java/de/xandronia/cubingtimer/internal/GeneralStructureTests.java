@@ -397,4 +397,65 @@ public class GeneralStructureTests extends Calculations {
         Assert.assertFalse(session.getAveragesOf5().containsValue(deleted));
     }
 
+    @Test
+    public void newBestAo5Any() {
+        Solve solve = new Solve(Duration.ofSeconds(1), "L");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(14), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(9), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(8), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(7), "R"));
+        session.addSolve(solve);
+        session.addSolve(new Solve(Duration.ofSeconds(15), "U"));
+        session.addSolve(new Solve(Duration.ofSeconds(16), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(17), "1"));
+        session.delSolve(solve);
+        Assert.assertEquals(Duration.ofSeconds(8), session.getBestAo5().getTime());
+    }
+
+    @Test
+    public void justAGiantTest() {
+        Solve solve = new Solve(Duration.ofSeconds(1), "");
+        Solve solve1 = new Solve(Duration.ofSeconds(2), "");
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(14), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(9), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(8), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(7), ""));
+        session.addSolve(solve);
+        session.addSolve(new Solve(Duration.ofSeconds(15), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(16), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(17), ""));
+        session.delSolve(solve);
+        session.delLastSolve();
+        session.addSolve(new Solve(Duration.ofSeconds(1), ""));
+        session.delLastSolve();
+        session.delLastSolve();
+        session.addSolve(solve1);
+        session.addSolve(solve);
+        session.delSolve(solve);
+        session.addSolve(new Solve(Duration.ofSeconds(10), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(9), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(8), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(7), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(10), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(6), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(10), ""));
+        session.addSolve(new Solve(Duration.ofSeconds(11), ""));
+        Session test = new Session("");
+        test.addSolve(new Solve(Duration.ofSeconds(9),""));
+        test.addSolve(new Solve(Duration.ofSeconds(8), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(7), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(15), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(2), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(10), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(9), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(8), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(7), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(10), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(6), ""));
+        test.addSolve(new Solve(Duration.ofSeconds(10),""));
+        Assert.assertEquals(test.getCurrentAo12(), session.getBestAo12());
+    }
+
 }

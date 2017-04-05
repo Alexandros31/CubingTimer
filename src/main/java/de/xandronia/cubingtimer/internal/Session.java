@@ -93,6 +93,14 @@ public class Session extends Calculations {
         return Best_ao5;
     }
 
+    public Average getCurrentAo12() {
+        return Current_ao12;
+    }
+
+    public Average getBestAo12() {
+        return Best_ao12;
+    }
+
     public Solve getLastDeleted() {
         return Last_Deleted;
     }
@@ -144,26 +152,16 @@ public class Session extends Calculations {
         Current_Solve = Solves.get(Solves.size()-1);
         Best_Solve = newBestDel(Last_Deleted, Best_Solve, Solves);
         if (Solves.size() >= AVERAGE_OF5) {
-            /*
-            Current_ao5 = AveragesOf5.get(Current_Solve);
-            lastDeletedAverage = AveragesOf5.get(Last_Deleted);
-            AveragesOf5.remove(Last_Deleted);
-            Best_ao5 = newBestDel(lastDeletedAverage, Best_ao5, AveragesOf5);
-            AveragesOf5 = calculateNewAverages(AveragesOf5, Solves, INDEX);
-            */
             AveragesOf5.remove(solve);
             AveragesOf5 = calculateAverages(AveragesOf5, Solves, INDEX, AVERAGE_OF5);
             Current_ao5 = AveragesOf5.get(Current_Solve);
             Best_ao5 = newBestAverage(AveragesOf5, Solves, AVERAGE_OF5);
         }
         if (Solves.size() >= AVERAGE_OF12) {
-            /*
+            AveragesOf12.remove(solve);
+            AveragesOf12 = calculateAverages(AveragesOf12, Solves, INDEX, AVERAGE_OF12);
             Current_ao12 = AveragesOf12.get(Current_Solve);
-            lastDeletedAverage = AveragesOf12.get(Last_Deleted);
-            AveragesOf12.remove(Last_Deleted);
-            Best_ao12 = newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
-            AveragesOf12 = calculateNewAverages(AveragesOf12, Solves, INDEX);
-            */
+            Best_ao12 = newBestAverage(AveragesOf12, Solves, AVERAGE_OF12);
         }
     }
 
