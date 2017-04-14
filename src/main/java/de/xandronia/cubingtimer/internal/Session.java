@@ -17,6 +17,12 @@ public class Session extends Calculations {
 
     private final static int AVERAGE_OF12 = 12;
 
+    private final static int AVERAGE_OF50 = 50;
+
+    private final static int AVERAGE_OF100 = 100;
+
+    private final static int AVERAGE_OF1000 = 1000;
+
     private String Name;
 
     private Mode Mode;
@@ -28,6 +34,12 @@ public class Session extends Calculations {
     private HashMap<Solve, Average> AveragesOf5;
 
     private HashMap<Solve, Average> AveragesOf12;
+
+    private HashMap<Solve, Average> AveragesOf50;
+
+    private HashMap<Solve, Average> AveragesOf100;
+
+    private HashMap<Solve, Average> AveragesOf1000;
 
     /* Singles and Averages */
 
@@ -43,9 +55,21 @@ public class Session extends Calculations {
 
     private Average Current_ao12;
 
+    private Average currentAo50;
+
+    private Average currentAo100;
+
+    private Average currentAo1000;
+
     private Average Best_ao5;
 
     private Average Best_ao12;
+
+    private Average bestAo50;
+
+    private Average bestAo100;
+
+    private Average bestAo1000;
 
     /* Getters */
 
@@ -101,6 +125,14 @@ public class Session extends Calculations {
         return Best_ao12;
     }
 
+    public Average getCurrentAo50() {
+        return currentAo50;
+    }
+
+    public Average getBestAo100() {
+        return bestAo100;
+    }
+
     public Solve getLastDeleted() {
         return Last_Deleted;
     }
@@ -142,6 +174,30 @@ public class Session extends Calculations {
             AveragesOf12.put(Current_Solve, Current_ao12);
             Best_ao12 = newBestAdd(Current_ao12, Best_ao12);
         }
+        if (Solves.size() >= AVERAGE_OF50) {
+            ArrayList<Solve> AverageOf50 = getAnyAverageSolves(Solves, AVERAGE_OF50, Solves.size());
+            ArrayList<Solve> Excluded = excludingSolves(AverageOf50);
+            Duration Time = calculateAverage(AverageOf50, Excluded);
+            currentAo50 = new Average(AverageOf50, Excluded, Time);
+            AveragesOf50.put(Current_Solve, currentAo50);
+            bestAo50 = newBestAdd(currentAo50, bestAo50);
+        }
+        if (Solves.size() >= AVERAGE_OF100) {
+            ArrayList<Solve> AverageOf100 = getAnyAverageSolves(Solves, AVERAGE_OF100, Solves.size());
+            ArrayList<Solve> Excluded = excludingSolves(AverageOf100);
+            Duration Time = calculateAverage(AverageOf100, Excluded);
+            currentAo100 = new Average(AverageOf100, Excluded, Time);
+            AveragesOf100.put(Current_Solve, currentAo100);
+            bestAo100 = newBestAdd(currentAo100, bestAo100);
+        }
+        if (Solves.size() >= AVERAGE_OF1000) {
+            ArrayList<Solve> AverageOf1000 = getAnyAverageSolves(Solves, AVERAGE_OF1000, Solves.size());
+            ArrayList<Solve> Excluded = excludingSolves(AverageOf1000);
+            Duration Time = calculateAverage(AverageOf1000, Excluded);
+            currentAo1000 = new Average(AverageOf1000, Excluded, Time);
+            AveragesOf1000.put(Current_Solve, currentAo1000);
+            bestAo1000 = newBestAdd(currentAo1000, bestAo1000);
+        }
     }
 
     public void delSolve(Solve solve) {
@@ -163,6 +219,24 @@ public class Session extends Calculations {
             Current_ao12 = AveragesOf12.get(Current_Solve);
             Best_ao12 = newBestAverage(AveragesOf12, Solves, AVERAGE_OF12);
         }
+        if (Solves.size() >= AVERAGE_OF50) {
+            AveragesOf50.remove(solve);
+            AveragesOf50 = calculateAverages(AveragesOf50, Solves, INDEX, AVERAGE_OF50);
+            currentAo50 = AveragesOf50.get(Current_Solve);
+            bestAo50 = newBestAverage(AveragesOf50, Solves, AVERAGE_OF50);
+        }
+        if (Solves.size() >= AVERAGE_OF100) {
+            AveragesOf100.remove(solve);
+            AveragesOf100 = calculateAverages(AveragesOf100, Solves, INDEX, AVERAGE_OF100);
+            currentAo100 = AveragesOf100.get(Current_Solve);
+            bestAo100 = newBestAverage(AveragesOf100, Solves, AVERAGE_OF100);
+        }
+        if (Solves.size() >= AVERAGE_OF1000) {
+            AveragesOf1000.remove(solve);
+            AveragesOf1000 = calculateAverages(AveragesOf1000, Solves, INDEX, AVERAGE_OF1000);
+            currentAo1000 = AveragesOf1000.get(Current_Solve);
+            bestAo1000 = newBestAverage(AveragesOf1000, Solves, AVERAGE_OF1000);
+        }
     }
 
     public void delLastSolve() {
@@ -183,6 +257,24 @@ public class Session extends Calculations {
             lastDeletedAverage = AveragesOf12.get(Last_Deleted);
             AveragesOf12.remove(Last_Deleted);
             Best_ao12 = newBestDel(lastDeletedAverage, Best_ao12, AveragesOf12);
+        }
+        if (Solves.size() >= AVERAGE_OF50) {
+            currentAo50 = AveragesOf50.get(Current_Solve);
+            lastDeletedAverage = AveragesOf50.get(Last_Deleted);
+            AveragesOf50.remove(Last_Deleted);
+            bestAo50 = newBestDel(lastDeletedAverage, bestAo50, AveragesOf50);
+        }
+        if (Solves.size() >= AVERAGE_OF100) {
+            currentAo100 = AveragesOf100.get(Current_Solve);
+            lastDeletedAverage = AveragesOf100.get(Last_Deleted);
+            AveragesOf100.remove(Last_Deleted);
+            bestAo100 = newBestDel(lastDeletedAverage, bestAo100, AveragesOf100);
+        }
+        if (Solves.size() >= AVERAGE_OF1000) {
+            currentAo1000 = AveragesOf1000.get(Current_Solve);
+            lastDeletedAverage = AveragesOf1000.get(Last_Deleted);
+            AveragesOf1000.remove(Last_Deleted);
+            bestAo1000 = newBestDel(lastDeletedAverage, bestAo1000, AveragesOf1000);
         }
     }
 
@@ -212,6 +304,9 @@ public class Session extends Calculations {
         this.Solves  = new ArrayList<>();
         this.AveragesOf5 = new HashMap<>();
         this.AveragesOf12 = new HashMap<>();
+        this.AveragesOf50 = new HashMap<>();
+        this.AveragesOf100 = new HashMap<>();
+        this.AveragesOf1000 = new HashMap<>();
         this.Solve_Count = INITIAL_COUNT;
         this.lastDeletedAverage = null;
         this.Current_Solve = null;
@@ -219,7 +314,13 @@ public class Session extends Calculations {
         this.Last_Deleted = null;
         this.Current_ao5 = null;
         this.Current_ao12 = null;
+        this.currentAo50 = null;
+        this.currentAo100 = null;
+        this.currentAo1000 = null;
         this.Best_ao5 = null;
         this.Best_ao12 = null;
+        this.bestAo50 = null;
+        this.bestAo100 = null;
+        this.bestAo1000 = null;
     }
 }
