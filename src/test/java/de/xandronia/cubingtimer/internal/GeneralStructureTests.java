@@ -2,10 +2,7 @@ package de.xandronia.cubingtimer.internal;
 
 import org.junit.Test;
 import java.time.Duration;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
-
 import org.junit.Assert;
 
 /**
@@ -28,7 +25,7 @@ public class GeneralStructureTests extends Calculations {
         SessionList sessionList = new SessionList();
         Session session = new Session("test");
         session.addSolve(new Solve(Duration.ZERO, "noScramble"));
-        Assert.assertNotEquals(session, sessionList.getCurrent());
+        Assert.assertNotSame(session, sessionList.getCurrent());
     }
 
     @Test
@@ -78,7 +75,7 @@ public class GeneralStructureTests extends Calculations {
         session.addSolve(new Solve(second, "troll"));
         session.addSolve(new Solve(best, "lol"));
         session.addSolve(new Solve(Duration.ofSeconds(3), "loo"));
-        Assert.assertNotEquals(session.getBest().getTime(), second);
+        Assert.assertNotSame(session.getBest().getTime(), second);
     }
 
     @Test
@@ -161,7 +158,7 @@ public class GeneralStructureTests extends Calculations {
         session.addSolve(new Solve(Duration.ofSeconds(800), "L"));
         session.addSolve(new Solve(Duration.ofSeconds(900), "Z"));
         session.addSolve(new Solve(Duration.ofSeconds(1000), "1"));
-        Assert.assertNotEquals(session.getCurrentAo5(), session.getBestAo5());
+        Assert.assertNotSame(session.getCurrentAo5(), session.getBestAo5());
     }
 
     /* Session Delete Last Solve Tests */
@@ -251,7 +248,7 @@ public class GeneralStructureTests extends Calculations {
         session.addSolve(new Solve(Duration.ofSeconds(1), "1"));
         session.delLastSolve();
         Average current = session.getCurrentAo5();
-        Assert.assertNotEquals(best, current);
+        Assert.assertNotSame(best, current);
     }
 
     @Test
