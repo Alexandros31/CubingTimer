@@ -9,19 +9,19 @@ import java.time.Instant;
 
 public class Timing {
 
-    private Instant Start;
+    private Instant start;
 
-    private Instant Stop;
+    private Instant stop;
 
     public Duration stop() {
-        this.Stop = Instant.now();
-        return  Duration.between(this.Start, this.Stop);
+        this.stop = Instant.now();
+        return  Duration.between(this.start, this.stop);
     }
 
     /* Constructor */
 
     public Timing() {
-        this.Start = Instant.now();
-        this.Stop = null;
+        this.start = Instant.now();
+        this.stop = null;
     }
 }

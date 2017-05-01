@@ -11,58 +11,60 @@ public class Solve {
 
     /* Global Variables*/
 
-    private final Duration Time;
+    private  Duration time;
 
-    private final String Scramble;
+    private final String scramble;
 
-    private String Cube;
+    private String cube;
 
-    private Color Color;
+    private Color color;
 
-    private State State;
+    private State state;
 
     /* Getters */
 
     public Duration getTime() {
-        return this.Time;
+        return this.time;
     }
 
     public String getScramble() {
-        return this.Scramble;
+        return this.scramble;
     }
 
     public String getCube() {
-        return this.Cube;
+        return this.cube;
     }
 
     public Color getColor() {
-        return this.Color;
+        return this.color;
     }
 
     public State getState() {
-        return this.State;
+        return this.state;
     }
 
     /* Setters */
 
     public void setColor(final Color color) {
-        this.Color = color;
+        this.color = color;
     }
 
     public void setCube(final String cube) {
-        this.Cube = cube;
+        this.cube = cube;
     }
 
-    public void setState(final State New_State) {
+    public void setState(final State newState) {
         final State plusTwo = de.xandronia.cubingtimer.internal.State.plusTwo;
-        final State Previous_State = this.State;
-        this.State = New_State;
-        if (this.State.equals(plusTwo)
+        final State Previous_State = this.state;
+        this.state = newState;
+        if (this.state.equals(plusTwo)
                 && !Previous_State.equals(plusTwo)) {
-            this.Time.plusSeconds(2);
+            final Duration dur = this.time.plusSeconds(2);
+            time = dur;
         } else if (Previous_State.equals(plusTwo)
-                && !this.State.equals(plusTwo)) {
-            this.Time.minusSeconds(2);
+                && !this.state.equals(plusTwo)) {
+            final Duration dur = this.time.minusSeconds(2);
+            time = dur;
         }
     }
 
@@ -71,23 +73,23 @@ public class Solve {
         if (object == null) return false;
         if (object == this) return true;
         if (!(object instanceof Solve))return false;
-        if (((Solve) object).getTime().equals(this.Time)
-                && ((Solve) object).getScramble().equals(this.Scramble)) return true;
+        if (((Solve) object).getTime().equals(this.time)
+                && ((Solve) object).getScramble().equals(this.scramble)) return true;
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Time, Scramble, Color, Cube, State);
+        return Objects.hash(time, scramble, color, cube, state);
     }
 
     /* Constructor */
 
     public Solve(final Duration time, final String scramble) {
-        this.Time = time;
-        this.Scramble = scramble;
-        this.State = de.xandronia.cubingtimer.internal.State.OK;
-        this.Cube = null;
-        this.Color = null;
+        this.time = time;
+        this.scramble = scramble;
+        this.state = de.xandronia.cubingtimer.internal.State.OK;
+        this.cube = null;
+        this.color = null;
     }
 }

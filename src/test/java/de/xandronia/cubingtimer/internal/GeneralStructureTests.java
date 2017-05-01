@@ -628,4 +628,96 @@ public class GeneralStructureTests extends Calculations {
         System.out.println(session.getBestAo100().getTime());
         System.out.println(ao100);
     }
+
+    /* State Tests in Enum */
+
+    @Test
+    public void setStateOkToPlusTwo() {
+        Solve solve = new Solve(Duration.ofSeconds(10), "");
+        solve.setState(State.plusTwo);
+        Assert.assertEquals(State.plusTwo, solve.getState());
+    }
+
+    @Test
+    public void setStateCheckTime() {
+        Solve solve = new Solve(Duration.ofSeconds(10), "");
+        solve.setState(State.plusTwo);
+        Assert.assertEquals(Duration.ofSeconds(12), solve.getTime());
+    }
+
+    @Test
+    public void setStateToDNF() {
+        Solve solve = new Solve(Duration.ofSeconds(10), "");
+        solve.setState(State.DNF);
+        Assert.assertEquals(State.DNF, solve.getState());
+    }
+
+    /* State Tests in Session */
+
+    @Test
+    public void setLastSolveToPlusTwo() {
+        final State state = State.plusTwo;
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "R"));
+        Solve solve = new Solve(Duration.ofSeconds(8), "U");
+        session.addSolve(solve);
+        session.switchState(solve, state);
+        Assert.assertEquals(Duration.ofSeconds(10), session.getCurrentAo5().getTime());
+    }
+
+    @Test
+    public void setLastSolveToDNF() {
+        final State state = State.DNF;
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(12), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(20), "R"));
+        Solve solve = new Solve(Duration.ofSeconds(8), "U");
+        session.addSolve(solve);
+        session.switchState(solve, state);
+        Assert.assertEquals(Duration.ofSeconds(14), session.getCurrentAo5().getTime());
+    }
+
+    @Test
+    public void setLastSolveFromPlusTwoToOK() {
+        final State state = State.OK;
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "R"));
+        Solve solve = new Solve(Duration.ofSeconds(7), "U");
+        session.addSolve(solve);
+        session.switchState(solve, State.plusTwo);
+        session.switchState(solve, state);
+        Assert.assertEquals(Duration.ofSeconds(9), session.getCurrentAo5().getTime());
+    }
+
+    @Test
+    public void setLastSolveFromDNFToOK() {
+        final State state = State.OK;
+        Session session = new Session("test");
+        session.addSolve(new Solve(Duration.ofSeconds(10), "F"));
+        session.addSolve(new Solve(Duration.ofSeconds(1), "A"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "Z"));
+        session.addSolve(new Solve(Duration.ofSeconds(10), "R"));
+        Solve solve = new Solve(Duration.ofSeconds(7), "U");
+        session.addSolve(solve);
+        session.switchState(solve, State.DNF);
+        session.switchState(solve, state);
+        Assert.assertEquals(Duration.ofSeconds(9), session.getCurrentAo5().getTime());
+    }
+
+
+    // timing lol test
+    @Test
+    public void test() {
+        Timing timer = new Timing();
+        System.out.println(timer.stop());
+    }
 }
+
