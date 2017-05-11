@@ -51,7 +51,8 @@ public class SessionList {
             smallSession = session2;
         }
         Session newSession = bigSession;
-        for (Solve currentSolve : smallSession.getSolves()) {
+        final ArrayList<Solve> solves = smallSession.getSolves();
+        for (Solve currentSolve : solves) {
             bigSession.addSolve(currentSolve);
         }
         addSession(newSession);
