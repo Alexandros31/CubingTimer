@@ -18,18 +18,44 @@ public class SessionList {
         return this.current;
     }
 
+    public Session getSession(int index) {
+        return list.get(index);
+    }
+
     /* Setters */
 
-    public void addSession(final Session session) {
+    public void setCurrent(final Session session) {
+        this.current = session;
+    }
+
+    public void addSession(Session session) {
         list.add(session);
         current = list.get(list.size()-1);
     }
 
     public void delSession(Session session) {
-        if (list.size() > 0) {
-            list.remove(session);
-            current = list.get(list.size()-1);
+        if (list.size() > 0) list.remove(session);
+    }
+
+    public void merge(Session session1, Session session2) {
+        if (!(list.contains(session1)) || !(list.contains(session2)) || !session1.getMode().equals(session2.getMode())) return;
+        delSession(session1);
+        delSession(session2);
+        Session bigSession;
+        Session smallSession;
+        if (session1.getSolves().size() < session2.getSolves().size()) {
+            bigSession = session2;
+            smallSession = session1;
+        } else {
+            bigSession = session1;
+            smallSession = session2;
         }
+        Session newSession = bigSession;
+        for (Solve currentSolve : smallSession.getSolves()) {
+            bigSession.addSolve(currentSolve);
+        }
+        addSession(newSession);
+        current = newSession;
     }
 
     /* Constructor */
