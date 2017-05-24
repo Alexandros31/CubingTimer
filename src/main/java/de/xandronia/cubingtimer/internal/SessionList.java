@@ -38,7 +38,6 @@ public class SessionList {
     }
 
     public void merge(Session session1, Session session2) {
-        if (!(list.contains(session1)) || !(list.contains(session2)) || !session1.getMode().equals(session2.getMode())) return;
         delSession(session1);
         delSession(session2);
         Session bigSession;

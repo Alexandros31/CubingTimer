@@ -11,8 +11,6 @@ import java.util.Objects;
 
 public class Session extends Calculations {
 
-    private final static int INITIAL_COUNT = 0;
-
     private final static int AVERAGE_OF5 = 5;
 
     private final static int AVERAGE_OF12 = 12;
@@ -27,19 +25,19 @@ public class Session extends Calculations {
 
     private Mode mode;
 
-    private Integer solveCount;
+    private Integer solveCount = 0;
 
-    private ArrayList<Solve> solves;
+    private ArrayList<Solve> solves = new ArrayList<>();
 
-    private HashMap<Solve, Average> averagesOf5;
+    private HashMap<Solve, Average> averagesOf5 = new HashMap<>();
 
-    private HashMap<Solve, Average> averagesOf12;
+    private HashMap<Solve, Average> averagesOf12 = new HashMap<>();
 
-    private HashMap<Solve, Average> averagesOf50;
+    private HashMap<Solve, Average> averagesOf50 = new HashMap<>();
 
-    private HashMap<Solve, Average> averagesOf100;
+    private HashMap<Solve, Average> averagesOf100 = new HashMap<>();
 
-    private HashMap<Solve, Average> averagesOf1000;
+    private HashMap<Solve, Average> averagesOf1000 = new HashMap<>();
 
     /* Singles and Averages */
 
@@ -286,6 +284,8 @@ public class Session extends Calculations {
         }
     }
 
+    /* Overrided Methods */
+
     @Override
     public boolean equals(Object object) {
         if (object == null) return false;
@@ -309,26 +309,5 @@ public class Session extends Calculations {
     public Session(String name) {
         this.name = name;
         this.mode = de.xandronia.cubingtimer.internal.Mode.T3;
-        this.solves = new ArrayList<>();
-        this.averagesOf5 = new HashMap<>();
-        this.averagesOf12 = new HashMap<>();
-        this.averagesOf50 = new HashMap<>();
-        this.averagesOf100 = new HashMap<>();
-        this.averagesOf1000 = new HashMap<>();
-        this.solveCount = INITIAL_COUNT;
-        this.lastDeletedAverage = null;
-        this.currentSolve = null;
-        this.bestSolve = null;
-        this.lastDeleted = null;
-        this.currentAo5 = null;
-        this.currentAo12 = null;
-        this.currentAo50 = null;
-        this.currentAo100 = null;
-        this.currentAo1000 = null;
-        this.bestAo5 = null;
-        this.bestAo12 = null;
-        this.bestAo50 = null;
-        this.bestAo100 = null;
-        this.bestAo1000 = null;
     }
 }

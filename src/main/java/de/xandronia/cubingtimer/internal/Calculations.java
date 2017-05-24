@@ -139,41 +139,4 @@ public class Calculations {
         return tmp;
     }
 
-    /* To Be Scraped */
-
-    public HashMap<Solve, Average> calculateNewAverages(HashMap<Solve, Average> averages, final ArrayList<Solve> solves, int index) {
-        final int INDEX = index;
-        final Collection<Average> collection = averages.values();
-        final ArrayList<Average> averagesList = new ArrayList<>(collection);
-        final int AVERAGE = averagesList.get(0).getSolves().size();
-        int counter = 0;
-        /* Upward Direction */
-        while (counter < AVERAGE || index >= solves.size()) {
-            final Solve current = solves.get(index);
-            final Average toBeReplaced = averages.get(current);
-            final ArrayList<Solve> averageSolves = getAnyAverageSolves(solves, AVERAGE, index);
-            final ArrayList<Solve> excluded = excludingSolves(averageSolves);
-            final Duration time = calculateAverage(averageSolves, excluded);
-            final Average average = new Average(averageSolves, excluded, time);
-            averages.replace(current, toBeReplaced, average);
-            index++;
-            counter++;
-        }
-        index = INDEX;
-        counter = 0;
-        /* Downward Direction */
-        while (counter < AVERAGE || index-AVERAGE+1 >= 0) {
-            final Solve current = solves.get(index);
-            final Average toBeReplaced = averages.get(current);
-            final ArrayList<Solve> averageSolves = getAnyAverageSolves(solves, AVERAGE, index);
-            final ArrayList<Solve> excluded = excludingSolves(averageSolves);
-            final Duration time = calculateAverage(averageSolves, excluded);
-            final Average average = new Average(averageSolves, excluded, time);
-            averages.replace(current, toBeReplaced, average);
-            index--;
-            counter++;
-        }
-        return averages;
-    }
-
 }
