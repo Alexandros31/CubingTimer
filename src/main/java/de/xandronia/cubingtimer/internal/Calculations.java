@@ -13,13 +13,13 @@ public class Calculations {
 
     /* Singles */
 
-    public Solve newBestAdd(Solve New_Solve, Solve Previous_Best) {
+    public static Solve newBestAdd(Solve New_Solve, Solve Previous_Best) {
         if ((Previous_Best == null) ||
                 (New_Solve.getTime().compareTo(Previous_Best.getTime()) < 0)) return New_Solve;
         return Previous_Best;
     }
 
-    public Solve newBestDel(Solve Deleted_Solve, Solve Previous_Best, ArrayList<Solve> Solves) {
+    public static Solve newBestDel(Solve Deleted_Solve, Solve Previous_Best, ArrayList<Solve> Solves) {
         Solve New_Best;
         if (Deleted_Solve.getTime().compareTo(Previous_Best.getTime()) > 0) return Previous_Best;
         else {
@@ -33,13 +33,13 @@ public class Calculations {
 
     /* Average */
 
-    public Average newBestAdd(Average newAverage, Average previous_best) {
+    public static Average newBestAdd(Average newAverage, Average previous_best) {
         if ((previous_best == null) ||
                 (newAverage.getTime().compareTo(previous_best.getTime()) < 0)) return newAverage;
         return previous_best;
     }
 
-    public Average newBestDel(Average deletedAverage, Average previousBest, HashMap<Solve, Average> averages) {
+    public static Average newBestDel(Average deletedAverage, Average previousBest, HashMap<Solve, Average> averages) {
         Average newBest;
         if (deletedAverage.getTime().compareTo(previousBest.getTime()) > 0) return previousBest;
         else {
@@ -51,7 +51,7 @@ public class Calculations {
         return newBest;
     }
 
-    public Duration calculateAverage(final ArrayList<Solve> solves, final ArrayList<Solve> excluded) {
+    public static Duration calculateAverage(final ArrayList<Solve> solves, final ArrayList<Solve> excluded) {
         long counter = 0;
         Duration sum = Duration.ZERO;
         for (Solve current : solves) {
@@ -64,7 +64,7 @@ public class Calculations {
         return sum.dividedBy((counter));
     }
 
-    public ArrayList<Solve> excludingSolves(ArrayList<Solve> solves) {
+    public static ArrayList<Solve> excludingSolves(ArrayList<Solve> solves) {
         int size = solves.size();
         int amount;
         switch (size) {
@@ -89,7 +89,7 @@ public class Calculations {
         return excluded;
     }
 
-    public HashMap<Solve, Average> calculateAverages(HashMap<Solve, Average> averages, final ArrayList<Solve> solves, int index, final int SIZE) {
+    public static HashMap<Solve, Average> calculateAverages(HashMap<Solve, Average> averages, final ArrayList<Solve> solves, int index, final int SIZE) {
         for (int i = index; i < solves.size(); i++) {
             if (i >= SIZE) {
                 ArrayList<Solve> aof = getAnyAverageSolves(solves, SIZE, i+1);
@@ -102,7 +102,7 @@ public class Calculations {
         return averages;
     }
 
-    public ArrayList<Solve> getAnyAverageSolves(final ArrayList<Solve> solves, final int averageOf, final int index) {
+    public static ArrayList<Solve> getAnyAverageSolves(final ArrayList<Solve> solves, final int averageOf, final int index) {
         ArrayList<Solve> average = new ArrayList<>();
         final int START = index-averageOf;
         for (int i = START; i < index ; i++) {
@@ -111,7 +111,7 @@ public class Calculations {
         return average;
     }
 
-    public Average newBestAverage(HashMap<Solve, Average> averages, ArrayList<Solve> solves, int of) {
+    public static Average newBestAverage(HashMap<Solve, Average> averages, ArrayList<Solve> solves, int of) {
         Average best = averages.get(solves.get(of-1));
         for (int i = of-1; i < solves.size(); i++) {
             if (averages.get(solves.get(i)).getTime().compareTo(best.getTime()) < 0) best = averages.get(solves.get(i));
@@ -121,7 +121,7 @@ public class Calculations {
 
     /* Private Help Methods */
 
-    private Solve getBestSolve(final ArrayList<Solve> solves) {
+    private static Solve getBestSolve(final ArrayList<Solve> solves) {
         Solve tmp = solves.get(0);
         for (Solve current : solves) {
             if (current.getTime().compareTo(tmp.getTime()) < 0 ) tmp = current;
@@ -129,7 +129,7 @@ public class Calculations {
         return tmp;
     }
 
-    private Solve getWorstSolve(final ArrayList<Solve> solves) {
+    private static Solve getWorstSolve(final ArrayList<Solve> solves) {
         if (solves.get(0).getState() == State.DNF) return solves.get(0);
         Solve tmp = solves.get(0);
         for (Solve current : solves) {
