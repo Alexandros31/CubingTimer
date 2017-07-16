@@ -153,6 +153,7 @@ public class Session {
 
     private void adding() {
 
+
     }
 
     /* Adding And Deleting solves */
@@ -205,6 +206,7 @@ public class Session {
     }
 
     public void delSolve(Solve solve) {
+        if (solves.isEmpty()) return;
         final int INDEX = solves.indexOf(solve);
         lastDeleted = solve;
         solves.remove(solve);
@@ -244,7 +246,7 @@ public class Session {
     }
 
     public void delLastSolve() {
-        if (solves.size() == 0) return;
+        if (solves.isEmpty()) return;
         lastDeleted = solves.get(solves.size()-1);
         solves.remove(lastDeleted);
         solveCount--;
@@ -299,7 +301,7 @@ public class Session {
         if (!(object instanceof Session)) return false;
         if (((Session) object).getSolves().size() != this.solves.size()) return false;
         for (int i = 0; i < this.solves.size(); i++) {
-           if (!((Session) object).getSolves().get(i).equals(this.solves.get(i))) return false;
+            if (!((Session) object).getSolves().get(i).equals(this.solves.get(i))) return false;
         }
         return true;
     }

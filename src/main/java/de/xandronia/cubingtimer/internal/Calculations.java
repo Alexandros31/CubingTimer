@@ -1,5 +1,7 @@
 package de.xandronia.cubingtimer.internal;
 
+import com.sun.istack.internal.NotNull;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,30 +15,30 @@ public class Calculations {
 
     /* Singles */
 
-    public static Solve newBestAdd(Solve New_Solve, Solve Previous_Best) {
-        if ((Previous_Best == null) ||
-                (New_Solve.getTime().compareTo(Previous_Best.getTime()) < 0)) return New_Solve;
-        return Previous_Best;
+    public static Solve newBestAdd(Solve newolve, Solve previousBest) {
+        if ((previousBest == null) ||
+                (newolve.getTime().compareTo(previousBest.getTime()) < 0)) return newolve;
+        return previousBest;
     }
 
-    public static Solve newBestDel(Solve Deleted_Solve, Solve Previous_Best, ArrayList<Solve> Solves) {
-        Solve New_Best;
-        if (Deleted_Solve.getTime().compareTo(Previous_Best.getTime()) > 0) return Previous_Best;
+    public static Solve newBestDel(Solve deletedSolve, Solve previousBest, ArrayList<Solve> Solves) {
+        Solve newBest;
+        if (deletedSolve.getTime().compareTo(previousBest.getTime()) > 0) return previousBest;
         else {
-            New_Best = Solves.get(0);
+            newBest = Solves.get(0);
             for (Solve Current : Solves) {
-                if (Current.getTime().compareTo(New_Best.getTime()) < 0) New_Best = Current;
+                if (Current.getTime().compareTo(newBest.getTime()) < 0) newBest = Current;
             }
         }
-        return New_Best;
+        return newBest;
     }
 
     /* Average */
 
-    public static Average newBestAdd(Average newAverage, Average previous_best) {
-        if ((previous_best == null) ||
-                (newAverage.getTime().compareTo(previous_best.getTime()) < 0)) return newAverage;
-        return previous_best;
+    public static Average newBestAdd(Average newAverage, Average previousbest) {
+        if ((previousbest == null) ||
+                (newAverage.getTime().compareTo(previousbest.getTime()) < 0)) return newAverage;
+        return previousbest;
     }
 
     public static Average newBestDel(Average deletedAverage, Average previousBest, HashMap<Solve, Average> averages) {
@@ -65,7 +67,7 @@ public class Calculations {
     }
 
     public static ArrayList<Solve> excludingSolves(ArrayList<Solve> solves) {
-        int size = solves.size();
+        final int size = solves.size();
         int amount;
         switch (size) {
             case 5: amount = 2; break;

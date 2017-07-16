@@ -10,7 +10,7 @@ import org.junit.Assert;
  * Created by alex on 21.03.17.
  */
 
-public class GeneralStructureTests extends Calculations {
+public class GeneralStructureTests {
 
     /* Session Add Tests */
 
